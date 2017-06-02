@@ -42,34 +42,34 @@ def youtube_spider(max_pages):
 
         #gets the links and titles for the videos.
         for link in soup.findAll('a', {'class': 'yt-uix-tile-link'}):
-            title = link.get('title')
             yt_link = "(https://www.youtube.com" + link.get('href') + ")"
-            href = link.get('href')
+
+            video = "Video: " + link.get('title') + yt_link + "\n"
+            playlist = "Playlist: " + link.get('title') + yt_link + "\n"
+            channel = "Channel: " + link.get('title') + yt_link + "\n"
+
             vid_num += 1
 
-            video = "Video: " + title + yt_link + "\n"
-            playlist = "Playlist: " + title + yt_link + "\n"
-            channel = "Channel: " + title + yt_link + "\n"
-
             #finds out which results is a video, playlist, or channel.
-            if "watch" and "&list=" in href:
+            if "watch" and "&list=" in link.get('href'):
                 if write_to_file:
                     fw.write(playlist)
                     print(playlist)
                 else:
                     print(playlist)
-            elif "watch" in href:
+            elif "watch" in link.get('href'):
                 if write_to_file:
-                    fw.write(playlist)
+                    fw.write(video)
                     print(video)
                 else:
                     print(video)
-            elif "user" or "channel" in href:
+            elif "user" or "channel" in link.get('href'):
                 if write_to_file:
-                    fw.write(playlist)
+                    fw.write(channel)
                     print(channel)
                 else:
                     print(channel)
+
 
             #for test in soup.findAll('span', {'class': 'video-time'}):
                 #vid_test = test.string
