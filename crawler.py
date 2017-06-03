@@ -1,9 +1,9 @@
-#import random
 import requests
 from bs4 import BeautifulSoup
 
-def youtube_spider(max_pages):
+def youtube_spider():
 
+    max_pages = 1
     write_to_file = False
     page = 1
     vid_num = 0
@@ -11,20 +11,20 @@ def youtube_spider(max_pages):
     print("Please input what you want to search...")
     search_item = input("")
     search_item.replace(" ", "+")
-    print("Searching...")
 
     #file writing
     file_name = "youtube search results " + search_item + ".txt"
 
-    print("Would you like to save these results to a file?")
+    print("Would you like to save these results to a file? y/n")
     yn = input("")
 
     if yn is "n":
         print("Exiting...")
     elif yn is "y":
         print("Creating file...")
-        fw = open(file_name, "w")
+        fw = open(file_name, "w", encoding='utf-8')
         write_to_file = True
+    print("Searching...")
 
     #main loop
     while page <= max_pages:
@@ -79,9 +79,15 @@ def youtube_spider(max_pages):
 
         print("Showing", vid_num, "Results \n")
 
-        if write_to_file:
-            fw.close()
-        else:
-            break
+        print("Show more results? y/n \n")
+        yn2 = input("")
 
-youtube_spider(1)
+        if yn2 is "n":
+            if write_to_file:
+                fw.close()
+            else:
+                break
+        elif yn2 is "y":
+            max_pages += 1
+
+youtube_spider()
